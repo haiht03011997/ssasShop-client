@@ -1,0 +1,21 @@
+{
+  "generator-jhipster": {
+    "baseName": "Accounts",
+    "clientFramework": "react",
+    "clientTestFrameworks": ["cypress"],
+    "clientTheme": "none",
+    "creationTimestamp": 1742436285578,
+    "cypressAudit": true,
+    "cypressCoverage": null,
+    "enableTranslation": true,
+    "entities": [],
+    "jhipsterVersion": "8.9.0",
+    "languages": ["vi", "en"],
+    "microfrontend": null,
+    "microfrontends": [],
+    "nativeLanguage": "vi",
+    "skipServer": true,
+    "testFrameworks": ["cypress"],
+    "withAdminUi": true
+  }
+}
