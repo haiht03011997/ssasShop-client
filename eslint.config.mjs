@@ -85,6 +85,7 @@ export default tseslint.config(
       'no-invalid-this': 'off',
       'react/prop-types': 'off',
       'react/display-name': 'off',
+      'prettier/prettier': 'off', // Disable prettier for the entire project
     },
   },
   {

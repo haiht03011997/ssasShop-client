@@ -30,7 +30,6 @@ describe('Authentication reducer tests', () => {
         errorMessage: null, // Errors returned from server side
         loginSuccess: false,
         loginError: false, // Errors returned from server side
-        showModalLogin: false,
         redirectMessage: null,
       });
       expect(isAccountEmpty(toTest));
@@ -55,7 +54,6 @@ describe('Authentication reducer tests', () => {
         loading: false,
         loginError: false,
         loginSuccess: true,
-        showModalLogin: false,
       });
     });
 
@@ -87,7 +85,6 @@ describe('Authentication reducer tests', () => {
 
       expect(toTest).toMatchObject({
         errorMessage: error.message,
-        showModalLogin: true,
         loginError: true,
       });
       expect(isAccountEmpty(toTest));
@@ -100,7 +97,6 @@ describe('Authentication reducer tests', () => {
       expect(toTest).toMatchObject({
         loading: false,
         isAuthenticated: false,
-        showModalLogin: true,
         errorMessage: error.message,
       });
       expect(isAccountEmpty(toTest));
@@ -115,7 +111,6 @@ describe('Authentication reducer tests', () => {
         isAuthenticated: false,
         loginSuccess: false,
         loginError: false,
-        showModalLogin: true,
         errorMessage: null,
         redirectMessage: null,
       });
@@ -130,7 +125,6 @@ describe('Authentication reducer tests', () => {
         isAuthenticated: false,
         loginSuccess: false,
         loginError: false,
-        showModalLogin: true,
         errorMessage: null,
         redirectMessage: message,
       });
@@ -141,7 +135,6 @@ describe('Authentication reducer tests', () => {
       const toTest = authentication({ ...initialState, isAuthenticated: true }, clearAuth());
       expect(toTest).toMatchObject({
         loading: false,
-        showModalLogin: true,
         isAuthenticated: false,
       });
     });

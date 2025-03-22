@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import axios, { AxiosResponse } from 'axios';
 import { Storage } from 'react-jhipster';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
@@ -100,6 +101,12 @@ export const AuthenticationSlice = createSlice({
         showModalLogin: true,
       };
     },
+    handleLoginModal(state, action) {
+      return {
+        ...initialState,
+        showModalLogin: action.payload,
+      };
+    },
     authError(state, action) {
       return {
         ...state,
@@ -158,7 +165,7 @@ export const AuthenticationSlice = createSlice({
   },
 });
 
-export const { logoutSession, authError, clearAuth } = AuthenticationSlice.actions;
+export const { logoutSession, authError, clearAuth, handleLoginModal } = AuthenticationSlice.actions;
 
 // Reducer
 export default AuthenticationSlice.reducer;

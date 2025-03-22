@@ -1,8 +1,12 @@
 import { DownOutlined } from '@ant-design/icons';
 import { Dropdown, Space } from 'antd';
-import React from 'react';
+import Title from 'antd/es/typography/Title';
+import { useAppDispatch, useAppSelector } from 'app/config/store';
+import LoginModal from 'app/modules/login/login-modal';
+import { handleLoginModal } from 'app/shared/reducers/authentication';
+import React, { useState } from 'react';
 import { Translate } from 'react-jhipster';
-import { useNavigate } from 'react-router';
+import { Navigate, useNavigate } from 'react-router';
 
 const accountMenuItemsAuthenticated = [
   {
@@ -35,16 +39,12 @@ const accountMenuItems = [
 
 export const AccountMenu = ({ isAuthenticated = false }) => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const showModalLogin = useAppSelector(state => state.authentication.showModalLogin);
 
   const handleMenuClick = (event: any) => {
     const key = event.key;
     switch (key) {
-      case 'login':
-        navigate('login');
-        break;
-      case 'register':
-        navigate('register');
-        break;
       case 'logout':
         navigate('logout');
         break;
@@ -59,23 +59,38 @@ export const AccountMenu = ({ isAuthenticated = false }) => {
     }
   };
 
+  const handleOpenModalLogin = event => {
+    event.preventDefault();
+    dispatch(handleLoginModal(true));
+  };
+
+  const handleCloseModal = () => {
+    dispatch(handleLoginModal(false));
+  };
+
   return (
-    <Dropdown
-      menu={{ items: !isAuthenticated ? accountMenuItems : accountMenuItemsAuthenticated, onClick: handleMenuClick }}
-      trigger={['click']}
-    >
-      <Space>
-        <span
-          className="text-white"
-          onClick={e => {
-            e.preventDefault();
-          }}
-        >
-          <Translate contentKey="global.menu.account.main">Account</Translate>
-          <DownOutlined />
+    <div className="d-flex justify-content-center">
+      {!isAuthenticated ? (
+        <span onClick={handleOpenModalLogin} className="text-white font-weight-bold cursor-pointer">
+          Đăng Nhập
         </span>
-      </Space>
-    </Dropdown>
+      ) : (
+        <Dropdown menu={{ items: accountMenuItemsAuthenticated, onClick: handleMenuClick }} trigger={['click']}>
+          <Space>
+            <span
+              className="text-white"
+              onClick={e => {
+                e.preventDefault();
+              }}
+            >
+              <Translate contentKey="global.menu.account.main">Account</Translate>
+              <DownOutlined />
+            </span>
+          </Space>
+        </Dropdown>
+      )}
+      <LoginModal showModal={showModalLogin} handleClose={handleCloseModal} />
+    </div>
   );
 };
 

@@ -4,6 +4,7 @@ import { isFulfilledAction, isRejectedAction } from 'app/shared/reducers/reducer
 import { isAxiosError } from 'axios';
 import { FieldErrorVM, isProblemWithMessage } from 'app/shared/jhipster/problem-details';
 import { getMessageFromHeaders } from 'app/shared/jhipster/headers';
+import { notification } from 'antd';
 
 type ToastMessage = {
   message?: string;
@@ -12,7 +13,10 @@ type ToastMessage = {
 };
 
 const addErrorAlert = (message: ToastMessage) => {
-  toast.error(message.key ? (translate(message.key, message.data) ?? message.message) : message.message);
+  notification.error({
+    placement: 'topLeft',
+    message: message.key ? (translate(message.key, message.data) ?? message.message) : message.message,
+  });
 };
 
 const getFieldErrorsToasts = (fieldErrors: FieldErrorVM[]): ToastMessage[] =>
@@ -26,7 +30,6 @@ const getFieldErrorsToasts = (fieldErrors: FieldErrorVM[]): ToastMessage[] =>
     return { message: `Error on field "${fieldName}"`, key: `error.${fieldError.message}`, data: { fieldName } };
   });
 
-// eslint-disable-next-line complexity
 export default () => next => action => {
   const { error, payload } = action;
 
@@ -46,7 +49,7 @@ export default () => next => action => {
       const { response } = error;
       if (response.status === 401) {
         // Ignore, page will be redirected to login.
-      } else if (error.config?.url?.endsWith('api/account') || error.config?.url?.endsWith('api/authenticate')) {
+      } else if (error.config?.url?.endsWith('api/account')) {
         // Ignore, authentication status check and authentication are treated differently.
       } else if (response.status === 0) {
         // connection refused, server not reachable
@@ -74,13 +77,15 @@ export default () => next => action => {
           } else if (typeof data === 'string' && data !== '') {
             addErrorAlert({ message: data });
           } else {
-            toast.error(data?.detail ?? data?.message ?? data?.error ?? data?.title ?? 'Unknown error!');
+            notification.error({
+              placement: 'topLeft',
+              message: data?.detail ?? data?.message ?? data?.error ?? data?.title ?? 'Unknown error!',
+            });
           }
         }
       }
     } else if (error.config?.url?.endsWith('api/account') && error.config?.method === 'get') {
-      /* eslint-disable no-console */
-      console.log('Authentication Error: Trying to access url api/account with GET.');
+      console.error('Authentication Error: Trying to access url api/account with GET.');
     } else {
       addErrorAlert({ message: error.message ?? 'Unknown error!' });
     }

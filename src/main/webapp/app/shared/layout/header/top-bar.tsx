@@ -1,14 +1,19 @@
 import React from 'react';
 import './top-bar.scss';
+import { Link } from 'react-router';
 const TopBarComponent = () => {
   return (
     <div className="top-bar d-flex gap-3 justify-content-center align-items-center py-2">
       <div>CHÀO MỪNG BẠN TRỞ LẠI WEBSITE</div>
       <div>
-        <span className="action question">CÂU HỎI THƯỜNG GẶP</span>
+        <Link to={'#'} className="action question">
+          CÂU HỎI THƯỜNG GẶP
+        </Link>
       </div>
       <div>
-        <span className="action introduction">HƯỚNG DẪN MUA HÀNG</span>
+        <Link to={'#'} className="action introduction">
+          HƯỚNG DẪN MUA HÀNG
+        </Link>
       </div>
       <div className="d-flex align-items-center gap-3">
         <span>HOTLINE: +84987243301</span>
